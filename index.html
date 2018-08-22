@@ -2,14 +2,13 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title>IMW 2018 choropleth</title>
+    <title>IMW GL JS</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
-
-h2,
+        h2,
 h3 {
   margin: 10px;
   font-size: 1.2em;
@@ -78,60 +77,20 @@ p {
 <body>
 
 <div id='map'></div>
-<div class='map-overlay' id='features'><h2>Aboriginal population</h2><div id='pd'><p>Hover over a province!</p></div></div>
+<div class='map-overlay' id='features'><h2>US population density</h2><div id='pd'><p>Hover over a state!</p></div></div>
 <div class='map-overlay' id='legend'></div>
+
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFyZW5hYiIsImEiOiJjajV2ajVyZXUwMnN3MzNwNzR3Ynk2cjIyIn0.sI-ynx23EEdpZFbEDu6qjA';
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/marenab/cjl2oczit56x42rlxm5adlopg', // stylesheet location
-});
-
-map.on('load', function() {
-  // make a pointer cursor
-    map.getCanvas().style.cursor = 'default';
-
-    // set map bounds to Canada
-    map.fitBounds([[-188.0859375, 37.1603165], [-30.5859375, 83.3595113]]);
-
-    // make a pointer cursor
-    map.getCanvas().style.cursor = 'default';
-
-  // define layer names
-  var layers = ['1730-10000', '10000-50000', '50000-100000', '100000-150000', '150000+'];
-var colors = ['#FFEDA0', '#cfecd9', '#a0dab3', '#40b7c4', '#3195a0', '#253393'];
-// add legend
-for (i = 0; i < layers.length; i++) {
-  var layer = layers[i];
-  var color = colors[i];
-  var item = document.createElement('div');
-  var key = document.createElement('span');
-  key.className = 'legend-key';
-  key.style.backgroundColor = color;
-
-  var value = document.createElement('span');
-  value.innerHTML = layer;
-  item.appendChild(key);
-  item.appendChild(value);
-  legend.appendChild(item);
-}
-
-//change info window on hover
-map.on('mousemove', function(e) {
-  var provinces = map.queryRenderedFeatures(e.point, {
-    layers: ['canada-pop']
-  });
-
-  if (provinces.length > 0) {
-    document.getElementById('pd').innerHTML = '<h3><strong>' + provinces[0].properties.NAME + '</strong></h3><p><strong><em>' + provinces[0].properties.aboriginal_pop + '</strong> Aboriginal population</em></p>';
-  } else {
-    document.getElementById('pd').innerHTML = '<p>Hover over a province!</p>';
-  }
-});
+    center: [-73.62487792968749, 45.51500822962093], // starting position [lng, lat]
+    zoom: 9 // starting zoom
 });
 
 // Add zoom and rotation controls to the map.
-map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.NavigationControl())
 
 </script>
 
